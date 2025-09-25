@@ -1,16 +1,17 @@
-const express = require("express");
 require("dotenv").config();
+const express = require("express");
 var cors = require("cors");
 const app = express();
 const port = 3000;
 const path = require("path");
 const { authGuard } = require("./controller/utill/auth-guard");
 app.use(cors());
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // parse application/json
-app.use(express.json());
+//app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

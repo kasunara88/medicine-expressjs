@@ -2,7 +2,6 @@ require("dotenv").config();
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const secretKey = process.env.JWT_SECRET;
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -66,6 +65,12 @@ const userLogin = (req, res) => {
           }
 
           if (isMatch) {
+            const secret = process.env.JWT_SECRET;
+            if (!secret) {
+              return res
+                .status(500)
+                .send("JWT_SECRET is not defined in .env file");
+            }
             const payload = {
               id: user.id,
               email: user.email,
